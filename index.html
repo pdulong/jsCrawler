@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<script src="ajax.js"></script>
+	<script>
+
+		//Urls to be indexed
+    var urls = ["/article/controlling-the-rise-of-diabetes","/article/controlling-the-rise-of-diabetes","/article/crafty-beers-to-catch","/article/crafty-beers-to-catch","/article/the-final-barriers-for-the-singapore-passport-visa-where-the-singapore-passport-brings-you-infographic-map","/article/the-final-barriers-for-the-singapore-passport-visa-where-the-singapore-passport-brings-you-infographic-map","/article/elected-presidency-is-the-constitutional-commission-skipping-a-step-by-inviting-views-before-education-presidential-elections-singapore","/article/elected-presidency-is-the-constitutional-commission-skipping-a-step-by-inviting-views-before-education-presidential-elections-singapore","/article/international-students-school-fees","/article/international-students-school-fees","/article/ge-2015-pap-vs-opposition-scorecard","/article/ge-2015-pap-vs-opposition-scorecard","../../category/election-fever","/article/the-nominated","/article/the-nominated","#","/article/election-fever-is-on","/article/election-fever-is-on","../../category/election-fever","/article/shoppers-guide-to-supermarkets","/article/shoppers-guide-to-supermarkets","/article/the-rise-and-fall-of-singapore-football","/article/the-rise-and-fall-of-singapore-football","/article/track-record-1","/article/track-record-1","/article/areas-of-crime-covered-by-interpol","/article/areas-of-crime-covered-by-interpol","/article/sea-games-then-today","/article/sea-games-then-today","/article/sars-vs-mers-1","/article/sars-vs-mers-1","/article/the-dark-side-of-studying-abroad-overseas-students-singapore","/article/the-dark-side-of-studying-abroad-overseas-students-singapore","/article/international-womens-day-the-plight-of-unwed-mothers","/article/international-womens-day-the-plight-of-unwed-mothers","/article/the-line-the-pangolins-cross-island-mass-rapid-transport-smrt","/article/the-line-the-pangolins-cross-island-mass-rapid-transport-smrt","/article/dr-tan-cheng-bock-to-contest-for-elected-presidency","/article/dr-tan-cheng-bock-to-contest-for-elected-presidency","/article/places-to-stalk-our-ministers","/article/places-to-stalk-our-ministers"];
+
+		//Array to keep track of all pages indexed
+		var done = new Array();
+
+    //Loop through every URL
+    var arrayLength = urls.length;
+    for (var i = 0; i < arrayLength; i++) {
+
+        //Make the link
+        var link = "http://six-six.com" + urls[i];
+
+        //Skip if we already indexed the URL
+        if( done.indexOf(urls[i]) != -1)
+          continue;
+
+        //Get the HTML of the page
+        jQuery.get(link, function(res){
+
+          //Make a JQuery object out of the HTML fetched
+          var $jQueryObject = $($.parseHTML(res.responseText));
+
+          //Get the values
+          var date    = $jQueryObject.find('.date').html();
+          var author  = ($jQueryObject.find('.article-author').text());
+          var title   = $jQueryObject.find('.article-page article header h1').text();
+
+          //Clean up the author
+          author = author.trim();
+          author = author.replace('By ', '');
+
+          //Add to table
+          $('table').append('<tr><td>'+date+'</td><td>'+title+'</td><td>'+author+'</td></tr>');
+
+          //Add url to list of links that are done
+          done.push(urls[i]);
+        });
+  }
+
+  </script>
+</head>
+<body>
+  <table>
+  </table>
+</body>
+</html>
